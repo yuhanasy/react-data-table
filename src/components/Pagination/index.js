@@ -8,25 +8,31 @@ class Pagination extends React.Component {
     rowPerPage: 8
   };
 
+  componentDidMount() {
+    const { currentPage, rowPerPage } = this.state;
+    const { data } = this.props;
+    const totalPage = Math.ceil(data.length / rowPerPage);
+    this.calcCurrentRows(currentPage, rowPerPage);
+    this.setState({ data, totalPage });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentPage, rowPerPage } = this.state;
+
+    if (JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data)) {
+      this.calcCurrentRows(currentPage, rowPerPage);
+    }
+  }
+
   calcCurrentRows = (currentPage, rowPerPage = 8) => {
     const { data } = this.props;
 
     const lastRow = currentPage * rowPerPage;
     const firstRow = lastRow - rowPerPage;
     const currentRows = data.slice(firstRow, lastRow);
-
     this.props.onChangePage(currentRows);
     this.setState({ firstRow, lastRow });
   };
-
-  componentDidMount() {
-    const { currentPage, rowPerPage } = this.state;
-    const { data } = this.props;
-
-    const totalPage = Math.ceil(data.length / rowPerPage);
-    this.calcCurrentRows(currentPage, rowPerPage);
-    this.setState({ totalPage });
-  }
 
   handleClick = event => {
     const currentPage = Number(event.target.id);
@@ -87,17 +93,21 @@ class Pagination extends React.Component {
     });
 
     return (
-      <PaginationWrapper>
-        <div>{`Show ${firstRow} - ${lastRow} from ${data.length}`}</div>
-        <div>
-          <PageButton>Page</PageButton>
-          <PageButton onClick={this.handleFirst}>&lt;&lt;</PageButton>
-          <PageButton onClick={this.handlePrevious}>&lt;</PageButton>
-          <PageWrapper>{renderPageNumbers}</PageWrapper>
-          <PageButton onClick={this.handleNext}>&gt;</PageButton>
-          <PageButton onClick={this.handleLast}>&gt;&gt;</PageButton>
-        </div>
-      </PaginationWrapper>
+      <div>
+        {data.length && (
+          <PaginationWrapper>
+            <div>{`Show ${firstRow} - ${lastRow} from ${data.length}`}</div>
+            <div>
+              <PageButton>Page</PageButton>
+              <PageButton onClick={this.handleFirst}>&lt;&lt;</PageButton>
+              <PageButton onClick={this.handlePrevious}>&lt;</PageButton>
+              <PageWrapper>{renderPageNumbers}</PageWrapper>
+              <PageButton onClick={this.handleNext}>&gt;</PageButton>
+              <PageButton onClick={this.handleLast}>&gt;&gt;</PageButton>
+            </div>
+          </PaginationWrapper>
+        )}
+      </div>
     );
   }
 }
