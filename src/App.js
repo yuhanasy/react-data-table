@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
 
 import DataTable from "./components/DataTable";
-
+import { GlobalStyle } from "./GlobalStyle";
 import mockData from "./services/data/mockData.json";
 
 const header = [
@@ -18,9 +17,10 @@ class App extends Component {
   render() {
     const { data } = mockData;
     return (
-      <div className="App">
+      <React.Fragment>
+        <GlobalStyle />
         <DataTable header={header} data={data} />
-      </div>
+      </React.Fragment>
     );
   }
 }
