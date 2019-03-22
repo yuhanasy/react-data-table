@@ -18,9 +18,11 @@ class Pagination extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { currentPage, rowPerPage } = this.state;
-
+    const { data } = this.props;
+    const totalPage = Math.ceil(data.length / rowPerPage);
     if (JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data)) {
       this.calcCurrentRows(currentPage, rowPerPage);
+      this.setState({ data, totalPage });
     }
   }
 

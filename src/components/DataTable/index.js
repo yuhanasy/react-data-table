@@ -58,49 +58,57 @@ class DataTable extends React.Component {
 
   handleSearch = value => {
     this.setState({ value });
-    // let copyData = [...this.props.data];
-
-    // if (value.length > 0) {
-    //   copyData = copyData.filter(item => item.id.match(value));
-    // }
-    // console.log(copyData);
-    // // this.setState({ data: copyData });
   };
 
   render() {
     let { currentRows, data, value } = this.state;
     const { header } = this.props;
 
+    // if (value.length > 0) {
+    //   data = data.filter(item => item.id.match(value));
+    // }
+
     if (value.length > 0) {
-      data = data.filter(item => item.id.match(value));
+      data = data.filter(item => {
+        let found = false;
+        for (let key in item) {
+          if (
+            String(item[key])
+              .toLowerCase()
+              .match(value)
+          ) {
+            found = true;
+            break;
+          }
+        }
+        return found && item;
+      });
     }
 
     return (
       <div>
-        {data.length && (
-          <div>
-            <Options>
-              <Search onSearch={this.handleSearch} />
-            </Options>
-            <Table>
-              <TableHead>
-                <Row>
-                  {header.map(col => (
-                    <Head
-                      key={col.value}
-                      id={col.value}
-                      onClick={this.handleClickColumn}
-                    >
-                      {col.label}
-                    </Head>
-                  ))}
-                </Row>
-              </TableHead>
-              <TableBody>{renderData(currentRows, header)}</TableBody>
-            </Table>
-            <Pagination data={data} onChangePage={this.handleChangePage} />
-          </div>
-        )}
+        <div>
+          <Options>
+            <Search onSearch={this.handleSearch} />
+          </Options>
+          <Table>
+            <TableHead>
+              <Row>
+                {header.map(col => (
+                  <Head
+                    key={col.value}
+                    id={col.value}
+                    onClick={this.handleClickColumn}
+                  >
+                    {col.label}
+                  </Head>
+                ))}
+              </Row>
+            </TableHead>
+            <TableBody>{renderData(currentRows, header)}</TableBody>
+          </Table>
+          <Pagination data={data} onChangePage={this.handleChangePage} />
+        </div>
       </div>
     );
   }
