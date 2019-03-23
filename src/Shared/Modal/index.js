@@ -1,16 +1,22 @@
 import React from "react";
 
-import { BackDrop, ModalContainer, ModalHeader, ModalWrapper } from "./styles";
+import {
+  ModalWrapper,
+  BackDrop,
+  ModalContainer,
+  ModalHeader,
+  ContentWrapper
+} from "./styles";
 
 const Modal = props => {
   return (
-    <div>
+    <ModalWrapper>
       <BackDrop show={props.show} onClick={props.close} />
       <ModalContainer show={props.show}>
         <ModalHeader>{props.header}</ModalHeader>
-        <ModalWrapper>{props.children}</ModalWrapper>
+        <ContentWrapper>{props.children}</ContentWrapper>
       </ModalContainer>
-    </div>
+    </ModalWrapper>
   );
 };
 
