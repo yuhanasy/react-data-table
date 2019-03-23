@@ -16,6 +16,7 @@ import { matcher } from "../../utils/helpers";
 class Filter extends React.Component {
   state = {
     isShowing: false,
+    filterFunc: {},
     filterBy: {}
   };
 
@@ -32,46 +33,56 @@ class Filter extends React.Component {
   };
 
   handleChange = event => {
-    const { filterBy } = this.state;
+    const { filterFunc, filterBy } = this.state;
     const value = event.target.value.toLowerCase();
     const id = event.target.id;
-    let copyFilter = { ...filterBy };
+    let copyFilterFunc = { ...filterFunc };
+    let copyFilterBy = { ...filterBy };
 
-    if (copyFilter.hasOwnProperty(id)) {
-      copyFilter[id] = d => matcher(d, id, value);
+    if (copyFilterFunc.hasOwnProperty(id) && copyFilterBy.hasOwnProperty(id)) {
+      copyFilterFunc[id] = d => matcher(d, id, value);
+      copyFilterBy[id] = value;
     }
 
-    copyFilter = {
-      ...copyFilter,
+    copyFilterFunc = {
+      ...copyFilterFunc,
       [id]: d => matcher(d, id, value)
     };
 
-    this.setState({ filterBy: copyFilter });
+    copyFilterBy = {
+      ...copyFilterBy,
+      [id]: value
+    };
+
+    this.setState({ filterFunc: copyFilterFunc, filterBy: copyFilterBy });
   };
 
   handleSubmitFilter = event => {
     event.preventDefault();
-    const { filterBy } = this.state;
-    this.props.onFilter(filterBy);
+    const { filterFunc } = this.state;
+    this.props.onFilter(filterFunc);
   };
 
   handleReset = () => {
+    const filterFunc = {};
     const filterBy = {};
-    this.setState({ filterBy });
-    this.props.onFilter(filterBy);
-    console.log(filterBy);
+    this.setState({ filterFunc, filterBy });
+
+    this.props.onFilter(filterFunc);
   };
 
   renderOptions = filters =>
     filters.map(el => {
-      const value = this.state[el.value];
-
       return (
         <ListOption key={el.value} name={el.value}>
           {el.label}
           <Value>
             <InputValue
-              value={value}
+              value={
+                this.state.filterBy[el.value]
+                  ? this.state.filterBy[el.value]
+                  : ""
+              }
               id={el.value}
               onChange={this.handleChange}
             />
@@ -93,10 +104,6 @@ class Filter extends React.Component {
           close={this.closeModalHandler}
           header="Filter Options"
         >
-          <List>
-            <ListOption>Sort A - Z</ListOption>
-            <ListOption>Sort Z - A</ListOption>
-          </List>
           <List onSubmit={this.handleSubmitFilter}>
             {this.renderOptions(options)}
             <SubmitBtn value="Apply Filter" />

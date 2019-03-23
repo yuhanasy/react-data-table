@@ -11,6 +11,7 @@ export const BackDrop = styled.div`
 
 export const ModalContainer = styled.div`
   max-width: 400px;
+  height: 100vw;
   padding: 20px;
   border-radius: 4px;
   background-color: #eee8ff;
@@ -29,6 +30,6 @@ export const ModalHeader = styled.h3``;
 export const ModalWrapper = styled.div`
   width: 100%;
   display: grid;
-  grid-template-rows: repeat(auto);
+  grid-template-rows: auto;
   grid-column-gap: 20px;
 `;
