@@ -30,4 +30,7 @@ export const Col = styled.td`
   cursor: pointer;
 `;
 
-export const Options = styled.div``;
+export const Options = styled.div`
+  display: flex;
+  align-items: center;
+`;
