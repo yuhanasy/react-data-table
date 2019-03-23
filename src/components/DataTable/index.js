@@ -3,33 +3,17 @@ import React from "react";
 import Pagination from "../Pagination";
 import Search from "../Search";
 import Sort from "../Sort";
-import Modal from "../../Shared/Modal";
+import Filter from "../Filter";
 import { Table, TableHead, Head, TableBody, Row, Col, Options } from "./styles";
-import { dynamicSort, quickSearch } from "../../services/helpers";
-
-// const renderData = (data, cols) =>
-//   data.map(row => (
-//     <Row key={row.id}>
-//       {cols.map(col => (
-//         <Col key={col.value}>
-//           {row[col.value] !== null ? row[col.value] : "-"}
-//         </Col>
-//       ))}
-//     </Row>
-//   ));
+import { dynamicSort, quickSearch } from "../../utils/helpers";
 
 class DataTable extends React.Component {
   state = {
     currentRows: [],
     sortBy: "",
     data: [],
-    input: "",
-    isShowing: false
+    input: ""
   };
-
-  // setDataValue = () => {
-  //   const {data}
-  // }
 
   componentDidMount() {
     const { data } = this.props;
@@ -60,16 +44,21 @@ class DataTable extends React.Component {
     this.setState({ input });
   };
 
-  openModalHandler = () => {
-    this.setState({
-      isShowing: true
-    });
-  };
+  handleFilter = filter => {
+    let { data } = this.props;
 
-  closeModalHandler = () => {
-    this.setState({
-      isShowing: false
-    });
+    const filterCombiner = (d, filterArray) => {
+      for (let fn in filterArray) {
+        if (!filterArray[fn](d)) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const result = data.filter(d => filterCombiner(d, filter));
+
+    this.setState({ data: result });
   };
 
   renderData = (data, cols) =>
@@ -95,15 +84,8 @@ class DataTable extends React.Component {
           <Options>
             <Search onSearch={this.handleSearch} />
             <Sort column={sortBy} />
-            <button onClick={this.openModalHandler}>Filter</button>
+            <Filter options={header} data={data} onFilter={this.handleFilter} />
           </Options>
-          <Modal
-            show={this.state.isShowing}
-            close={this.closeModalHandler}
-            header="Filter Options"
-            options={header}
-            data={data}
-          />
           <Table>
             <TableHead>
               <Row>

@@ -11,16 +11,17 @@ export const dynamicSort = property => {
   };
 };
 
+export const matcher = (object, key, value) =>
+  String(object[key])
+    .toLowerCase()
+    .match(value);
+
 export const quickSearch = (input, data) => {
   if (input.length > 0) {
     data = data.filter(item => {
       let found = false;
       for (let key in item) {
-        if (
-          String(item[key])
-            .toLowerCase()
-            .match(input)
-        ) {
+        if (matcher(item, key, input)) {
           found = true;
           break;
         }

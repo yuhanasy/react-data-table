@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import DataTable from "./components/DataTable";
 import { GlobalStyle } from "./GlobalStyle";
-import mockData from "./services/data/mockData.json";
+import mockData from "./utils/data/mockData.json";
 
 const header = [
   { value: "invoiceDate", label: "Invoice Date" },
