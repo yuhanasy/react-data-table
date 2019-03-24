@@ -1,11 +1,21 @@
 import React from "react";
 
-import { PaginationWrapper, PageWrapper, Page, PageButton } from "./styles";
+import {
+  PaginationWrapper,
+  PageWrapper,
+  Page,
+  PageButton,
+  TableInfo
+} from "./styles";
 
 class Pagination extends React.Component {
   state = {
     currentPage: 1,
-    rowPerPage: 8
+    rowPerPage: 8,
+    data: [],
+    totalPage: 0,
+    firstRow: 0,
+    lastRow: 0
   };
 
   componentDidMount() {
@@ -77,36 +87,55 @@ class Pagination extends React.Component {
     });
   };
 
-  render() {
-    const { firstRow, lastRow, totalPage } = this.state;
-    const { data } = this.props;
+  renderPageNumbers = () => {
+    const { currentPage, totalPage } = this.state;
 
     const pageNumbers = [];
     for (let i = 1; i <= totalPage; i++) {
       pageNumbers.push(i);
     }
 
-    const renderPageNumbers = pageNumbers.map(number => {
+    return pageNumbers.map(number => {
+      const color = currentPage === number ? true : false;
       return (
-        <Page key={number} id={number} onClick={this.handleClick}>
+        <Page
+          key={number}
+          id={number}
+          onClick={this.handleClick}
+          fontColor={color}
+        >
           {number}
         </Page>
       );
     });
+  };
+
+  render() {
+    const { firstRow, lastRow } = this.state;
+    const { data } = this.props;
 
     return (
       <div>
-        {data.length && (
+        {data.length ? (
           <PaginationWrapper>
-            <div>{`Show ${firstRow} - ${lastRow} from ${data.length}`}</div>
+            <div>
+              <TableInfo>Show</TableInfo>
+              <TableInfo fontColor="black">{`${firstRow} - ${lastRow}`}</TableInfo>
+              <TableInfo>from</TableInfo>
+              <TableInfo fontColor="black">{`${data.length}`}</TableInfo>
+            </div>
             <div>
               <PageButton>Page</PageButton>
               <PageButton onClick={this.handleFirst}>&lt;&lt;</PageButton>
               <PageButton onClick={this.handlePrevious}>&lt;</PageButton>
-              <PageWrapper>{renderPageNumbers}</PageWrapper>
+              <PageWrapper>{this.renderPageNumbers()}</PageWrapper>
               <PageButton onClick={this.handleNext}>&gt;</PageButton>
               <PageButton onClick={this.handleLast}>&gt;&gt;</PageButton>
             </div>
+          </PaginationWrapper>
+        ) : (
+          <PaginationWrapper>
+            <TableInfo>No Data Found</TableInfo>
           </PaginationWrapper>
         )}
       </div>

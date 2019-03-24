@@ -1,5 +1,21 @@
 import styled from "styled-components";
 
+export const FilterContainer = styled.div`
+  width: 280px;
+  padding: 4px 8px;
+  margin-right: 32px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const FilterText = styled.p`
+  margin: 0;
+  padding-left: 8px;
+  color: black;
+`;
+
 export const List = styled.form`
   min-width: 200px;
   display: grid;

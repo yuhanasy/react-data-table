@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const SearchContainer = styled.div`
   padding: 4px 8px;
   border-radius: 100px;
-  margin: 8px 32px 0;
+  margin-right: 32px;
   background-color: #eee8ff;
   display: flex;
   justify-content: flex-start;
-  align-self: center;
+  align-items: center;
 `;
 
 export const SearchBar = styled.input`
@@ -20,7 +20,7 @@ export const SearchBar = styled.input`
   font-size: inherit;
   color: inherit;
   ::placeholder {
-    color: inherit;
+    color: #93919a;
   }
 `;
 

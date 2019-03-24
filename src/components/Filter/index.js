@@ -8,7 +8,9 @@ import {
   Divider,
   InputValue,
   SubmitBtn,
-  ResetBtn
+  ResetBtn,
+  FilterContainer,
+  FilterText
 } from "./styles";
 
 import { matcher } from "../../utils/helpers";
@@ -97,8 +99,9 @@ class Filter extends React.Component {
     const { options } = this.props;
 
     return (
-      <div>
-        <button onClick={this.openModalHandler}>Filter</button>
+      <FilterContainer>
+        <box-icon name="filter" size="md" onClick={this.openModalHandler} />
+        <FilterText onClick={this.openModalHandler}>Filter</FilterText>
         <Modal
           show={isShowing}
           close={this.closeModalHandler}
@@ -110,7 +113,7 @@ class Filter extends React.Component {
             <ResetBtn value="Reset" onClick={this.handleReset} />
           </List>
         </Modal>
-      </div>
+      </FilterContainer>
     );
   }
 }

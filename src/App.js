@@ -19,7 +19,6 @@ class App extends Component {
     return (
       <React.Fragment>
         <GlobalStyle />
-        <h5>Listed below are the successful payment transactions.</h5>
         <DataTable header={header} data={data} />
       </React.Fragment>
     );

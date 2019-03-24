@@ -17,7 +17,7 @@ class Search extends React.Component {
   render() {
     return (
       <SearchContainer>
-        <box-icon name="search" size="sm" color="#8760ff" />
+        <box-icon name="search" size="sm" color="#93919a" />
         <SearchBar
           placeholder="Quick Search"
           value={this.state.value}

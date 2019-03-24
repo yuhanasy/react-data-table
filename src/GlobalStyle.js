@@ -9,11 +9,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html, body {
-    @import url('https://fonts.googleapis.com/css?family=Hind:400,500|Work+Sans:500,900');
+    @import url('https://fonts.googleapis.com/css?family=Dosis');
     margin: 0;
     padding: 0;
     line-height: 1.5;
-    font-family: 'Hind', sans-serif;
+    font-family: 'Dosis', sans-serif;
     font-size: 16px;
     color: #8760ff;
     background-color: #F8F9FF;
