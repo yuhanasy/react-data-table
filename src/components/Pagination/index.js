@@ -36,7 +36,7 @@ class Pagination extends React.Component {
     }
   }
 
-  calcCurrentRows = (currentPage, rowPerPage = 8) => {
+  calcCurrentRows = (currentPage, rowPerPage) => {
     const { data } = this.props;
 
     const lastRow = currentPage * rowPerPage;

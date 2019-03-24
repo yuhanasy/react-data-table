@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html, body {
-    @import url('https://fonts.googleapis.com/css?family=Dosis');
+    @import url('//fonts.googleapis.com/css?family=Dosis');
     margin: 0;
     padding: 0;
     line-height: 1.5;
