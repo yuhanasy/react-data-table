@@ -111,8 +111,11 @@ class Pagination extends React.Component {
   };
 
   render() {
-    const { firstRow, lastRow } = this.state;
+    let { firstRow, lastRow } = this.state;
     const { data } = this.props;
+
+    firstRow += 1;
+    lastRow = lastRow > data.length ? data.length : lastRow;
 
     return (
       <div>

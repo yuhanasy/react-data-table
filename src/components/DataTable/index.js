@@ -15,7 +15,13 @@ import {
   TableContainer,
   TableInfo
 } from "./styles";
-import { dynamicSort, quickSearch } from "../../utils/helpers";
+import {
+  dynamicSort,
+  quickSearch,
+  strToDate,
+  dateToStr,
+  formatCurrency
+} from "../../utils/helpers";
 
 class DataTable extends React.Component {
   state = {
@@ -45,14 +51,10 @@ class DataTable extends React.Component {
 
     // Convert invoice date payment date and payment date data into date type
     for (let d of copyData) {
-      let invoice = d.invoiceDate.split("-");
-      let invoiceDateFormat = new Date(invoice[2], invoice[1], invoice[0]);
-      d.invoiceDate = invoiceDateFormat;
+      d.invoiceDate = strToDate(d.invoiceDate);
 
       if (d.paymentDate !== null) {
-        let payment = d.paymentDate.split("-");
-        let paymentDateFormat = new Date(payment[2], payment[1], payment[0]);
-        d.paymentDate = paymentDateFormat;
+        d.paymentDate = strToDate(d.paymentDate);
       }
     }
 
@@ -65,18 +67,10 @@ class DataTable extends React.Component {
 
     // Convert back invoice and payment date into string
     for (let d of sortedData) {
-      let invoiceDay = d.invoiceDate.getDate();
-      let invoiceMonth = d.invoiceDate.getMonth();
-      let invoiceYear = d.invoiceDate.getFullYear();
-      let invoice = `${invoiceDay}-${invoiceMonth}-${invoiceYear}`;
-      d.invoiceDate = invoice;
+      d.invoiceDate = dateToStr(d.invoiceDate);
 
       if (d.paymentDate !== null) {
-        let paymentDay = d.paymentDate.getDate();
-        let paymentMonth = d.paymentDate.getMonth();
-        let paymentYear = d.paymentDate.getFullYear();
-        let payment = `${paymentDay}-${paymentMonth}-${paymentYear}`;
-        d.paymentDate = payment;
+        d.paymentDate = dateToStr(d.paymentDate);
       }
     }
 
@@ -107,11 +101,13 @@ class DataTable extends React.Component {
   renderData = (data, cols) =>
     data.map(row => (
       <Row key={row.id}>
-        {cols.map(col => (
-          <Col key={col.value}>
-            {row[col.value] !== null ? row[col.value] : "-"}
-          </Col>
-        ))}
+        {cols.map(col => {
+          let value =
+            col.value === "total"
+              ? formatCurrency.format(row.total)
+              : row[col.value];
+          return <Col key={col.value}>{value !== null ? value : "-"}</Col>;
+        })}
       </Row>
     ));
 

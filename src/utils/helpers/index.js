@@ -51,3 +51,20 @@ export const quickSearch = (input, data) => {
 
   return data;
 };
+
+export const dateToStr = date => {
+  return [date.getDate(), date.getMonth() + 1, date.getFullYear()]
+    .map(n => (n < 10 ? `0${n}` : `${n}`))
+    .join("-");
+};
+
+export const strToDate = str => {
+  let arrDate = str.split("-");
+  return new Date(arrDate[2], arrDate[1], arrDate[0]);
+};
+
+export const formatCurrency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "IDR",
+  minimumFractionDigits: 0
+});
