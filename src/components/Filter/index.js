@@ -10,7 +10,8 @@ import {
   SubmitBtn,
   ResetBtn,
   FilterContainer,
-  FilterText
+  FilterText,
+  Separator
 } from "./styles";
 
 import { matcher } from "../../utils/helpers";
@@ -100,6 +101,7 @@ class Filter extends React.Component {
 
     return (
       <FilterContainer>
+        <Separator />
         <box-icon name="filter" size="md" onClick={this.openModalHandler} />
         <FilterText onClick={this.openModalHandler}>Filter</FilterText>
         <Modal

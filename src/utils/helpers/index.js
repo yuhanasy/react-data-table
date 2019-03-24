@@ -53,7 +53,7 @@ export const quickSearch = (input, data) => {
 };
 
 export const dateToStr = date => {
-  return [date.getDate(), date.getMonth() + 1, date.getFullYear()]
+  return [date.getDate(), date.getMonth(), date.getFullYear()]
     .map(n => (n < 10 ? `0${n}` : `${n}`))
     .join("-");
 };

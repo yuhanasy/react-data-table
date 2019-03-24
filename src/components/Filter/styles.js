@@ -67,3 +67,9 @@ export const ResetBtn = styled.input.attrs({ type: "button" })`
 export const Divider = styled.hr`
   border-top: 1px solid #8760ff;
 `;
+
+export const Separator = styled.hr`
+  border-right: 1px solid #8760ff;
+  height: 16px;
+  margin: 0 8px 0 0;
+`;

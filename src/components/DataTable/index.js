@@ -26,7 +26,7 @@ import {
 class DataTable extends React.Component {
   state = {
     currentRows: [],
-    sortBy: "Click on Column",
+    sortBy: "invoiceDate",
     ascending: true,
     data: [],
     input: ""
@@ -43,11 +43,10 @@ class DataTable extends React.Component {
     });
   };
 
-  handleClickColumn = event => {
-    const value = event.target.id;
+  handleSort = event => {
+    const value = event ? event.target.id : this.state.sortBy;
     let copyData = [...this.props.data];
     let { ascending } = this.state;
-    const { header } = this.props;
 
     // Convert invoice date payment date and payment date data into date type
     for (let d of copyData) {
@@ -57,10 +56,6 @@ class DataTable extends React.Component {
         d.paymentDate = strToDate(d.paymentDate);
       }
     }
-
-    const sortBy = header
-      .filter(col => col.value.match(value))
-      .map(col => col.label);
 
     ascending = ascending ? false : true;
     let sortedData = copyData.sort(dynamicSort(value, ascending));
@@ -74,7 +69,7 @@ class DataTable extends React.Component {
       }
     }
 
-    this.setState({ sortBy, data: sortedData, ascending });
+    this.setState({ sortBy: value, data: sortedData, ascending });
   };
 
   handleSearch = input => {
@@ -106,7 +101,11 @@ class DataTable extends React.Component {
             col.value === "total"
               ? formatCurrency.format(row.total)
               : row[col.value];
-          return <Col key={col.value}>{value !== null ? value : "-"}</Col>;
+          return (
+            <Col id={col.value} key={col.value} onClick={this.handleSort}>
+              {value !== null ? value : "-"}
+            </Col>
+          );
         })}
       </Row>
     ));
@@ -124,18 +123,19 @@ class DataTable extends React.Component {
         </TableInfo>
         <Options>
           <Search onSearch={this.handleSearch} />
-          <Sort column={sortBy} order={ascending} />
+          <Sort
+            sortBy={sortBy}
+            order={ascending}
+            handleSort={this.handleSort}
+            header={header}
+          />
           <Filter options={header} data={data} onFilter={this.handleFilter} />
         </Options>
         <Table>
           <TableHead>
             <Row>
               {header.map(col => (
-                <Head
-                  key={col.value}
-                  id={col.value}
-                  onClick={this.handleClickColumn}
-                >
+                <Head key={col.value} id={col.value} onClick={this.handleSort}>
                   {col.label}
                 </Head>
               ))}

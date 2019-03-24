@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const SortContainer = styled.div`
-  width: 280px;
+  width: 250px;
   padding: 4px 8px;
-  margin-right: 32px;
+  margin-right: 8px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
