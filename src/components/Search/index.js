@@ -1,6 +1,7 @@
 import React from "react";
 
-import { SearchBar } from "./styles";
+import { SearchBar, SearchContainer } from "./styles";
+import "boxicons";
 
 class Search extends React.Component {
   state = {
@@ -15,14 +16,14 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div>
-        <span>O</span>
+      <SearchContainer>
+        <box-icon name="search" size="sm" color="#8760ff" />
         <SearchBar
           placeholder="Quick Search"
           value={this.state.value}
           onChange={this.handleChange}
         />
-      </div>
+      </SearchContainer>
     );
   }
 }
