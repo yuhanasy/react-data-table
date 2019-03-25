@@ -64,6 +64,7 @@ class Filter extends React.Component {
     event.preventDefault();
     const { filterFunc } = this.state;
     this.props.onFilter(filterFunc);
+    this.closeModalHandler();
   };
 
   handleReset = () => {
@@ -72,6 +73,7 @@ class Filter extends React.Component {
     this.setState({ filterFunc, filterBy });
 
     this.props.onFilter(filterFunc);
+    this.closeModalHandler();
   };
 
   renderOptions = filters =>
